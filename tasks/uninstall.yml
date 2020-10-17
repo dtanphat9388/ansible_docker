@@ -8,7 +8,7 @@
       cmd: "{% raw -%} docker info --format '{{json .Swarm.LocalNodeState}}' {%- endraw %}"
   - name: debug `docker_swarm_status` register
     debug:
-      msg: "{{(docker_swarm_status.stdout.find('inactive') == 1) | ternary('Node not in swarm mode', 'Node in swarm mode')}}"
+      msg: "{{ (docker_swarm_status.stdout.find('inactive') == 1) | ternary('Node not in swarm mode', 'Node in swarm mode') }}"
       verbosity: 1
   ## force leave swarm mode if status is active or pending
   - name: Leave swarm mode if actived

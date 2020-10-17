@@ -5,7 +5,7 @@
   shell: which docker
 - name: debug 'existed_docker' register 1
   debug:
-    msg: "{{ (existed_docker.rc == 0) | ternary('Đã cài docker', 'Chưa cài docker')}}"
+    msg: "{{ (existed_docker.rc == 0) | ternary('Đã cài docker', 'Chưa cài docker') }}"
     verbosity: 1
     
 - include_tasks: uninstall.yml
