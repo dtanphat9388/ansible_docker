@@ -2,33 +2,22 @@
 - name: Check Docker is installed
   ignore_errors: yes
   register: existed_docker
-  shell: which docker | {{ ternary('restart', 'continue') }}
-- name: console.log(existed_docker)
+  shell: which docker
+- name: debug 'existed_docker' register 1
   debug:
-    msg: "{{existed_docker}}"
+    msg: "{{ (existed_docker.rc == 0) | ternary('Đã cài docker', 'Chưa cài docker')}}"
     verbosity: 1
-
-# - name: check node is in swarm mode
-#   when: existed_docker.rc == 0
-#   ignore_errors: yes
-#   register: docker_swarm_status
-#   shell: 
-#     cmd: "{% raw -%} docker info --format '{{json .Swarm.LocalNodeState}}' {%- endraw %}"
-# - name: console.log(docker_swarm_status)
-#   debug:
-#     msg: "{{docker_swarm_status.stdout}}"
-#     verbosity: 1
     
-# - name: Uninstall Docker
-#   when: docker_swarm_status.stdout.find("inactive") == -1 and docker_reinstall == "force" 
-#   import_tasks: uninstall.yml
-#   ignore_errors: yes
+- include_tasks: uninstall.yml
+  when: existed_docker.rc == 0 and docker_reinstall | bool
+  # when: docker_swarm_status.stdout.find("inactive") == -1 and docker_reinstall | bool
+  ignore_errors: yes
+ 
+- name: Install Docker
+  when: existed_docker.rc != 0 or docker_reinstall | bool
+  script: install-docker.sh
 
-# - name: Install Docker
-#   when: existed_docker.rc != 0
-#   script: install-docker.sh
-
-# - import_tasks: init-docker-swarm.yml
-# - import_tasks: join-man agers-to-swarm.yml
-# - import_tasks: join-workers-to-swarm.yml
+- import_tasks: init-docker-swarm.yml
+- import_tasks: join-managers-to-swarm.yml
+- import_tasks: join-workers-to-swarm.yml
 # - import_tasks: test.yml

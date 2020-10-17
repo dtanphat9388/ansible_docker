@@ -1,6 +1,6 @@
 ---
 - name: join managers to master
   # check_mode: yes
-  when: docker_swarm_mode == 'manager'
+  when: docker_swarm_node == 'manager'
   shell: 
     cmd: "{{ hostvars['api']['fact_docker_swarm_token_manager'] }}"

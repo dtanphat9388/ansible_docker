@@ -1,7 +1,7 @@
 ---
 ### init docker swarm on leader node
 - name: init swarm mode on master
-  when: docker_swarm_mode == 'leader'
+  when: docker_swarm_node == 'leader'
   block:
   - name: Docker login
     shell: "docker login {{ docker_registry_host }} -u {{ docker_registry_user }} -p {{ docker_registry_pass }}"

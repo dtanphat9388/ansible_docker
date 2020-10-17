@@ -28,7 +28,7 @@ docker_reinstall: no
 ##    - clone ilotusland installer and setup
 ## manager: join to docker swarm with manager role
 ## worker: join to docker swarm with worker role
-docker_swarm_mode: worker      # worker | manager | leader
+docker_swarm_node: worker      # worker | manager | leader
 ```
 
 Dependencies

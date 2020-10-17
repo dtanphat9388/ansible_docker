@@ -1,6 +1,16 @@
 ---
 - name: Prepare for uninstall docker
   block:
+  - name: Check node is in swarm mode
+    ignore_errors: yes
+    register: docker_swarm_status
+    shell: 
+      cmd: "{% raw -%} docker info --format '{{json .Swarm.LocalNodeState}}' {%- endraw %}"
+  - name: debug `docker_swarm_status` register
+    debug:
+      msg: "{{(docker_swarm_status.stdout.find('inactive') == 1) | ternary('Node not in swarm mode', 'Node in swarm mode')}}"
+      verbosity: 1
+  ## force leave swarm mode if status is active or pending
   - name: Leave swarm mode if actived
     when: docker_swarm_status.stdout.find("inactive") == -1
     shell: docker swarm leave -f

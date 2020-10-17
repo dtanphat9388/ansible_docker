@@ -1,11 +1,15 @@
 ---
 # set to 'yes' if you want reinstall docker
-# values: none | safe | force
-docker_reinstall: none
+docker_reinstall: no
 
-## leader: 
-##    - `docker swarm init` and `docker swarm join-token worker|manager`
-##    - clone ilotusland installer and setup
-## manager: join to docker swarm with manager role
-## worker: join to docker swarm with worker role
-docker_swarm_mode: worker      # worker | manager | leader
+## values:
+##    worker | manager | leader
+##
+## decription:
+##    leader: only one leader in a docker swarm, the following tasks to do:
+##      - docker swarm init
+##      - get token for managers
+##      - get token for workers
+##    manager: join to docker swarm with manager role
+##    worker: join to docker swarm with worker role
+docker_swarm_node: worker

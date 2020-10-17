@@ -1,7 +1,6 @@
 galaxy_info:
   author: Dương Tấn Phát
   description: role for install docker and setup docker swarm
-  company: vietan group
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -41,8 +40,7 @@ galaxy_info:
 
   galaxy_tags:
     - docker
-    - install docker
-    - docker swarm
+    - docker_swarm
 
 dependencies: []
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
