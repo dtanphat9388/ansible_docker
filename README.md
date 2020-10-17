@@ -48,7 +48,7 @@ docker_swarm_node: worker
 
 How use this ROLE
 ----------------
-- In your inventory file, you need to create 3 groups with 3 different `docker_swarm_node` variables and place the hosts in the appropriate group
+1. In your inventory file, you need to create 3 groups with 3 different `docker_swarm_node` variables and place the hosts in the appropriate group
 ```yaml
 # inventory.yml
 your_group:
@@ -68,6 +68,14 @@ your_group:
         - ....
       vars:
         docker_swarm_node: worker
+```
+2. declare docker role in your playbook
+```yaml
+# playbook.yml
+- name: ""
+  host: ""
+  roles:
+    - docker
 ```
 
 License
