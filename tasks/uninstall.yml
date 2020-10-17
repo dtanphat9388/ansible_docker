@@ -1,0 +1,17 @@
+---
+- name: Prepare for uninstall docker
+  block:
+  - name: Leave swarm mode if actived
+    when: docker_swarm_status.stdout.find("inactive") == -1
+    shell: docker swarm leave -f
+
+- name: Uninstall Docker packages
+  apt: 
+    name: "{{ item }}"
+    state: absent
+    force: yes
+    purge: yes
+  loop:
+    - docker-ce 
+    - docker-ce-cli 
+    - containerd.io

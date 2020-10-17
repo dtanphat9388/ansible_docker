@@ -1,0 +1,5 @@
+---
+- name: test
+  when: inventory_hostname in groups['manager']
+  debug:
+    msg: "{{ inventory_hostname }}"

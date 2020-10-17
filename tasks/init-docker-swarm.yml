@@ -1,0 +1,38 @@
+---
+### init docker swarm on leader node
+- name: init swarm mode on master
+  when: docker_swarm_mode == 'leader'
+  block:
+  - name: Docker login
+    shell: "docker login {{ docker_registry_host }} -u {{ docker_registry_user }} -p {{ docker_registry_pass }}"
+    # check_mode: "true"
+  # -----
+  - name: Docker Swarm init
+    shell: "docker swarm init"
+    # check_mode: "true"
+  # -----
+  - name: Set label for master node
+    script: set-label-for-docker-node.sh
+    # check_mode: yes
+  # -----
+  - name: Get docker join token for manager node
+    register: reg_docker_join_token_manager
+    shell: "docker swarm join-token manager"
+  # -----
+  - name: Get docker join token for worker node
+    register: reg_docker_join_token_worker
+    shell: "docker swarm join-token worker"
+  # -----
+  - name: Save docker join token for manager to fact
+    set_fact:
+      fact_docker_swarm_token_manager: "{{ reg_docker_join_token_manager['stdout_lines'][2] | trim }}"
+      cacheable: yes
+  # -----
+  - name: Save docker join token for worker to fact
+    set_fact:
+      fact_docker_swarm_token_worker: "{{ reg_docker_join_token_worker['stdout_lines'][2] | trim }}"
+      cacheable: yes
+  rescue:
+  - name: Tasks name cause error
+    debug:
+      var: ansible_failed_task.name
