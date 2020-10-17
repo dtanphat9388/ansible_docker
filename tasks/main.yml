@@ -1,4 +1,7 @@
 ---
+- name: Role validation
+  import_tasks: validate.yml
+
 - name: Check Docker is installed
   ignore_errors: yes
   changed_when: existed_docker.rc >= 2

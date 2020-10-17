@@ -11,19 +11,18 @@ Dependencies
 Workflow
 ------------
 - if docker was installed
-  - check node is in swarm mode
   - if node in swarm mode
     - leave swarm mode
   - uninstall current docker
 - install docker
 - setup docker swarm
-  - on leader host
+  - if host in leader group
     - init docker swarm
     - get swarm join-token for managers hosts
     - get swarm join-token for workers hosts
-  - on manager hosts
+  - if host in manager group
     - join to swarm with manager token
-  - on worker hosts
+  - if host in worker group
     - join to swarm with worker token
 
 

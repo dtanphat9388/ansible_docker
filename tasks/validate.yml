@@ -1,0 +1,8 @@
+---
+# check gourp leader phai ton tai
+# group nay chi co 1 host
+- name: show number of host in group
+  run_once: yes
+  failed_when: groups.leader | length > 1
+  fail:
+    msg: "Only one host in leader group but current is {{ groups.leader | length }}"
