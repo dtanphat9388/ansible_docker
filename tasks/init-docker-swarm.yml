@@ -4,11 +4,11 @@
   when: docker_swarm_node == 'leader'
   block:
   - name: Docker login
-    shell: "docker login {{ docker_registry_host }} -u {{ docker_registry_user }} -p {{ docker_registry_pass }}"
+    command: "docker login {{ docker_registry_host }} -u {{ docker_registry_user }} -p {{ docker_registry_pass }}"
     # check_mode: "true"
   # -----
   - name: Docker Swarm init
-    shell: "docker swarm init"
+    command: "docker swarm init"
     # check_mode: "true"
   # -----
   - name: Set label for master node
@@ -17,11 +17,11 @@
   # -----
   - name: Get docker join token for manager node
     register: reg_docker_join_token_manager
-    shell: "docker swarm join-token manager"
+    command: "docker swarm join-token manager"
   # -----
   - name: Get docker join token for worker node
     register: reg_docker_join_token_worker
-    shell: "docker swarm join-token worker"
+    command: "docker swarm join-token worker"
   # -----
   - name: Save docker join token for manager to fact
     set_fact:

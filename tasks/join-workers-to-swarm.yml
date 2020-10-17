@@ -2,5 +2,4 @@
 - name: join worker to master
   # check_mode: yes
   when: docker_swarm_node == 'worker'
-  shell: 
-    cmd: "{{ hostvars['web']['fact_docker_swarm_token_worker'] }}"
+  command: "{{ hostvars['web']['fact_docker_swarm_token_worker'] }}"
