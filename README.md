@@ -1,56 +1,77 @@
-Role Name
+Description
 =========
+use this role for auto install Docker and setup docker swarm cluster
 
-Docker
-
-Requirements
-------------
-
-if (vars.docker_reinstall == "yes") {
-  - if (docker was installed)
-    - check node is in swarm mode
-    - if (swarm mode != "inactive")
-      - leave swarm mode
-      - then uninstall docker
-  - else install docker
-}
-
-Role Variables
---------------
-
-
-```yml
-# set to 'yes' if you want reinstall docker
-docker_reinstall: no
-
-## leader: 
-##    - `docker swarm init` and `docker swarm join-token worker|manager`
-##    - clone ilotusland installer and setup
-## manager: join to docker swarm with manager role
-## worker: join to docker swarm with worker role
-docker_swarm_node: worker      # worker | manager | leader
-```
 
 Dependencies
 ------------
+- no dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
-Example Playbook
+Workflow
+------------
+- check docker command
+- if docker not installed
+  - install docker
+  - setup docker swarm
+- else
+  - check node is in swarm mode
+  - if node in swarm mode
+    - leave swarm mode
+  - uninstall current docker
+  - install docker
+  - setup docker swarm
+
+
+Default Role Variables
+--------------
+
+```yml
+# set to 'no' if you don't want to reinstall docker
+docker_reinstall: yes
+
+## values:
+##    worker | manager | leader
+##
+## decription:
+##    leader: only one leader in a docker swarm, the following tasks to do:
+##      - docker swarm init
+##      - get token for managers
+##      - get token for workers
+##    manager: join to docker swarm with manager role
+##    worker: join to docker swarm with worker role
+docker_swarm_node: worker
+```
+
+How use this ROLE
 ----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- In your inventory file, you need to create 3 groups with 3 different `docker_swarm_node` variables and place the hosts in the appropriate group
+```yaml
+# inventory.yml
+your_group:
+  child:
+    leader:
+      hosts:
+        - ....
+      vars:
+        docker_swarm_node: leader
+    manager:
+      hosts:
+        - ....
+      vars:
+        docker_swarm_node: manager
+    worker:
+      hosts:
+        - ....
+      vars:
+        docker_swarm_node: worker
+```
 
 License
 -------
-
-BSD
+MIT
 
 Author Information
 ------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+name: Duong Tan Phat
+email: dtanphat9388@gmail.com

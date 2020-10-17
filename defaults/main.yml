@@ -1,6 +1,6 @@
 ---
-# set to 'yes' if you want reinstall docker
-docker_reinstall: no
+# set to 'no' if you don't want to reinstall docker
+docker_reinstall: yes
 
 ## values:
 ##    worker | manager | leader
@@ -12,4 +12,4 @@ docker_reinstall: no
 ##      - get token for workers
 ##    manager: join to docker swarm with manager role
 ##    worker: join to docker swarm with worker role
-docker_swarm_node: worker
+# docker_swarm_node: worker
