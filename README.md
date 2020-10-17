@@ -1,6 +1,6 @@
 Description
 =========
-use this role for auto install Docker and setup docker swarm cluster
+ANSIBLE ROLE for auto install Docker and setup docker swarm cluster
 
 
 Dependencies
