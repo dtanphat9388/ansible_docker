@@ -10,15 +10,12 @@ Dependencies
 
 Workflow
 ------------
-- check docker command
-- if docker not installed
-  - install docker
-- else
+- if docker was installed
   - check node is in swarm mode
   - if node in swarm mode
     - leave swarm mode
   - uninstall current docker
-  - install docker
+- install docker
 - setup docker swarm
   - on leader host
     - init docker swarm
