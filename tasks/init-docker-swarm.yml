@@ -17,10 +17,12 @@
   # -----
   - name: Get docker join token for manager node
     register: reg_docker_join_token_manager
+    changed_when: reg_docker_join_token_manager.rc >= 2
     command: "docker swarm join-token manager"
   # -----
   - name: Get docker join token for worker node
     register: reg_docker_join_token_worker
+    changed_when: reg_docker_join_token_worker.rc >= 2
     command: "docker swarm join-token worker"
   # -----
   - name: Save docker join token for manager to fact

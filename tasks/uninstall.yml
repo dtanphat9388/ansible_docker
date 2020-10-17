@@ -3,6 +3,7 @@
   block:
   - name: Check node is in swarm mode
     ignore_errors: yes
+    # failed_when: rc >= 2
     register: docker_swarm_status
     command: "{% raw -%} docker info --format '{{ json .Swarm.LocalNodeState }}' {%- endraw %}"
   - name: debug `docker_swarm_status` register

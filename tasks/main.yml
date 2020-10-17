@@ -1,6 +1,7 @@
 ---
 - name: Check Docker is installed
   ignore_errors: yes
+  changed_when: existed_docker.rc >= 2
   register: existed_docker
   command: which docker
 - name: debug 'existed_docker' register 1
@@ -12,12 +13,13 @@
   when: existed_docker.rc == 0 and docker_reinstall | bool
   # when: docker_swarm_status.stdout.find("inactive") == -1 and docker_reinstall | bool
   ignore_errors: yes
- 
-- name: Install Docker
-  when: existed_docker.rc != 0 or docker_reinstall | bool
-  script: install-docker.sh
 
-- import_tasks: init-docker-swarm.yml
-- import_tasks: join-managers-to-swarm.yml
-- import_tasks: join-workers-to-swarm.yml
+- name: Install Docker && setup docker swarm
+  when: existed_docker.rc != 0 or docker_reinstall | bool
+  block:
+  - name: Install Docker
+    script: install-docker.sh
+  - import_tasks: init-docker-swarm.yml
+  - import_tasks: join-managers-to-swarm.yml
+  - import_tasks: join-workers-to-swarm.yml
 # - import_tasks: test.yml
