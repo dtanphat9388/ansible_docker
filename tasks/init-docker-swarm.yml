@@ -1,7 +1,7 @@
 ---
 ### init docker swarm on leader node
 - name: init swarm mode on master
-  when: docker_swarm_node == 'leader'
+  when: "'leader' in group_names"
   block:
   - name: Docker login
     command: "docker login {{ docker_registry_host }} -u {{ docker_registry_user }} -p {{ docker_registry_pass }}"
@@ -10,10 +10,6 @@
   - name: Docker Swarm init
     command: "docker swarm init"
     # check_mode: "true"
-  # -----
-  - name: Set label for master node
-    script: set-label-for-docker-node.sh
-    # check_mode: yes
   # -----
   - name: Get docker join token for manager node
     register: reg_docker_join_token_manager
