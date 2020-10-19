@@ -49,34 +49,41 @@ docker_swarm_node: worker
 How use this ROLE
 ----------------
 1. In your inventory file, you need to create 3 groups with 3 different `docker_swarm_node` variables and place the hosts in the appropriate group
-```yaml
-# inventory.yml
-your_group:
-  child:
-    leader:
-      hosts:
-        - ....
-      vars:
-        docker_swarm_node: leader
-    manager:
-      hosts:
-        - ....
-      vars:
-        docker_swarm_node: manager
-    worker:
-      hosts:
-        - ....
-      vars:
-        docker_swarm_node: worker
-```
-2. declare docker role in your playbook
-```yaml
-# playbook.yml
-- name: ""
-  host: ""
-  roles:
-    - docker
-```
+  ```yaml
+  # inventory.yml
+  your_group:
+    child:
+      leader:
+        hosts:
+          - ....
+        vars:
+          docker_swarm_node: leader
+      manager:
+        hosts:
+          - ....
+        vars:
+          docker_swarm_node: manager
+      worker:
+        hosts:
+          - ....
+        vars:
+          docker_swarm_node: worker
+  ```
+2. declare docker role:
+- as role in your playbook
+  ```yaml
+  # playbook.yml
+  - name: ""
+    host: ""
+    roles:
+      - docker
+  ```
+
+- as dependency in other role, trong `roles/example/meta/main.yml`
+  ```yml
+  dependencies:
+    - name: dtanphat9388.ansible_docker
+  ```
 
 License
 -------

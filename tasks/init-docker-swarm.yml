@@ -34,3 +34,4 @@
   - name: Tasks name cause error
     debug:
       var: ansible_failed_task.name
+      verbosity: 1
