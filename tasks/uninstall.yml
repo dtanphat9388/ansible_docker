@@ -10,10 +10,18 @@
     debug:
       msg: "{{ (docker_swarm_status.stdout.find('inactive') == 1) | ternary('Node not in swarm mode', 'Node in swarm mode') }}"
       verbosity: 1
+  - name: Remove all docker stack
+    when: docker_swarm_status.stdout.find("inactive") == -1
+    shell: '{% raw -%} docker stack rm {{ $(docker stack ls --format "{{.Name}}") }} {%- endraw %}'
   ## force leave swarm mode if status is active or pending
   - name: Leave swarm mode if actived
     when: docker_swarm_status.stdout.find("inactive") == -1
     command: docker swarm leave -f
+  - name: docker clean up system
+    command: "{{ item }}"
+    loop:
+      - docker system prune -f
+      - docker image prune -af
 
 - name: Uninstall Docker packages
   apt: 
