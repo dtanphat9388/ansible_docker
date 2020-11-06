@@ -12,7 +12,7 @@
       verbosity: 1
   - name: Remove all docker stack
     when: docker_swarm_status.stdout.find("inactive") == -1
-    shell: '{% raw -%} docker stack rm {{ $(docker stack ls --format "{{.Name}}") }} {%- endraw %}'
+    shell: '{% raw -%} docker stack rm {{ $(docker stack ls --format "{{ .Name }}") }} {%- endraw %}'
   ## force leave swarm mode if status is active or pending
   - name: Leave swarm mode if actived
     when: docker_swarm_status.stdout.find("inactive") == -1
@@ -24,12 +24,12 @@
       - docker image prune -af
 
 - name: Uninstall Docker packages
-  apt: 
+  apt:
     name: "{{ item }}"
     state: absent
     force: yes
     purge: yes
   loop:
-    - docker-ce 
-    - docker-ce-cli 
+    - docker-ce
+    - docker-ce-cli
     - containerd.io
