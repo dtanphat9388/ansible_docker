@@ -8,7 +8,7 @@
     # check_mode: "true"
   # -----
   - name: Docker Swarm init
-    command: "docker swarm init"
+    command: "docker swarm init --advertise-addr {{}}"
     # check_mode: "true"
   # -----
   - name: Get docker join token for manager node
@@ -34,4 +34,3 @@
   - name: Tasks name cause error
     debug:
       var: ansible_failed_task.name
-      verbosity: 1

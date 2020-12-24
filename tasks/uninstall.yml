@@ -9,7 +9,7 @@
   - name: debug `docker_swarm_status` register
     debug:
       msg: "{{ (docker_swarm_status.stdout.find('inactive') == 1) | ternary('Node not in swarm mode', 'Node in swarm mode') }}"
-      verbosity: 1
+
   - name: Remove all docker stack
     when: docker_swarm_status.stdout.find("inactive") == -1
     shell: '{% raw -%} docker stack rm {{ $(docker stack ls --format "{{ .Name }}") }} {%- endraw %}'
