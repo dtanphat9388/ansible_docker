@@ -22,6 +22,10 @@
   block:
   - name: Install Docker
     script: install-docker.sh
+  - name: Start service docker, if not started
+    service:
+      name: docker
+      state: started
   - import_tasks: init-docker-swarm.yml
   - import_tasks: join-managers-to-swarm.yml
   - import_tasks: join-workers-to-swarm.yml

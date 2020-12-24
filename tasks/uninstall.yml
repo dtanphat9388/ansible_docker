@@ -23,13 +23,21 @@
       - docker system prune -f
       - docker image prune -af
 
-- name: Uninstall Docker packages
-  apt:
-    name: "{{ item }}"
-    state: absent
-    force: yes
-    purge: yes
-  loop:
-    - docker-ce
-    - docker-ce-cli
-    - containerd.io
+  - name: Uninstall Docker packages
+    block:
+      - name: Stop service docker, if started
+        service:
+          name: docker
+          state: stopped
+      - name: remove docker packages
+        apt:
+          name: "{{ item }}"
+          state: absent
+          force: yes
+          purge: yes
+        loop:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+      - name: to delete all images, containers, and volumes
+        command: rm -rf /var/lib/docker
